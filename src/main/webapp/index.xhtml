@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>Cadastrar e Listar Tarefas</title>
+	<script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</h:head>
+
+<h:body class="bg-gray-100">
+
+	<div class="container mx-auto p-8">
+
+		<div class="flex justify-between items-center mb-6">
+
+			<!-- Título da listagem -->
+			<h2 class="text-2xl font-semibold text-gray-700">Listagem de
+				Tarefas</h2>
+
+			<!-- Botão para abrir o modal de Cadastro de Tarefa -->
+			<h:button
+				class="bg-blue-500 text-white px-10 py-3 rounded-md hover:bg-blue-600"
+				value="Cadastrar Tarefa" outcome="cadastro.xhtml" action="#{tarefaBean.adicionarForm}" />
+
+		</div>
+
+		<!-- Filtros de busca -->
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+
+			<!-- Linha 1: Número -->
+			<div>
+				<label for="numero" class="block text-sm font-medium text-gray-600">Número</label>
+				<input type="text" id="numero" class="w-full p-2 border rounded-md" />
+			</div>
+
+			<!-- Linha 2: Título/Descrição -->
+			<div class="col-span-2">
+				<label for="titulo_descricao"
+					class="block text-sm font-medium text-gray-600">Título/Descrição</label>
+				<input type="text" id="titulo_descricao"
+					class="w-full p-2 border rounded-md" />
+			</div>
+
+			<!-- Linha 3: Responsável e Situação e Buscar -->
+			<div class="flex gap-4 col-span-2">
+				<div class="flex-1">
+					<label for="responsavel"
+						class="block text-sm font-medium text-gray-600">Responsável</label>
+					<select id="responsavel" class="w-full p-2 border rounded-md">
+						<option value="">Selecione</option>
+						<option value="1">Responsável 1</option>
+						<option value="2">Responsável 2</option>
+						<option value="3">Responsável 3</option>
+					</select>
+				</div>
+
+				<div class="flex-1">
+					<label for="situacao"
+						class="block text-sm font-medium text-gray-600">Situação</label> <select
+						id="situacao" class="w-full p-2 border rounded-md">
+						<option value="">Selecione</option>
+						<option value="em_andamento">Em andamento</option>
+						<option value="concluido">Concluído</option>
+					</select>
+				</div>
+
+				<div class="flex-1 p-3">
+					<button type="submit"
+						class="bg-blue-500 text-white w-full p-3 rounded-md hover:bg-blue-600">
+						<h:commandButton value="Buscar Tarefa"
+							action="#{tarefaBean.salvar}" />
+					</button>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Tabela de tarefas -->
+		<div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+
+			<h:form>
+				<table
+					class="min-w-full table-auto border-collapse border border-gray-300 shadow-md rounded-lg">
+					<thead class="bg-gray-200 text-gray-700 text-left">
+						<tr>
+							<th class="px-4 py-3 border-b border-gray-300">Número</th>
+							<th class="px-4 py-3 border-b border-gray-300">Título/Descrição</th>
+							<th class="px-4 py-3 border-b border-gray-300">Responsável</th>
+							<th class="px-4 py-3 border-b border-gray-300">Situação</th>
+							<th class="px-4 py-3 text-center border-b border-gray-300">Ações</th>
+						</tr>
+					</thead>
+					<tbody class="bg-white divide-y divide-gray-200 text-gray-800">
+						<ui:repeat value="#{tarefaBean.listaTarefas}" var="tarefa">
+
+							<tr>
+
+								<td class="px-4 py-2 border-gray-100 border-t-1"><h:outputText
+										value="#{tarefa.numero}" /></td>
+
+								<td class="border-l-1 border-gray-100 px-4 py-2 border-t-1">
+
+									<h:outputText value="#{tarefa.titulo}" />
+
+								</td>
+
+								<td class="border-l-1 border-gray-100 px-4 py-2 border-t-1">
+
+									<h:outputText value="#{tarefa.responsavel}" />
+
+								</td>
+
+								<td class="border-l-1 border-gray-100 px-4 py-2 border-t-1">
+
+									<h:outputText value="#{tarefa.situacao}" />
+
+								</td>
+
+								<td
+									class="flex justify-center gap-4 border-l-1 border-gray-100 px-2 py-2 border-t-1">
+
+									<button
+										onclick="document.getElementById('editModal').classList.remove('hidden')"
+										class="bg-yellow-500 text-white p-1 rounded-md hover:bg-yellow-600">Editar</button>
+
+									<button onclick=""
+										class="bg-red-500 text-white p-1 rounded-md hover:bg-red-600">Excluir</button>
+
+									<button onclick=""
+										class="bg-green-500 text-white p-1 rounded-md hover:bg-green-600">Concluir</button>
+								</td>
+							</tr>
+						</ui:repeat>
+					</tbody>
+				</table>
+			</h:form>
+		</div>
+	</div>
+</h:body>
+</html>
